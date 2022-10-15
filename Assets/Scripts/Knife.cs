@@ -3,7 +3,6 @@
 public class Knife : MonoBehaviour
 {
     [SerializeField] private float force;
-    private const float SpawnPositionY = -2.5f;
     private KnifeSpawner _spawner;
     private Rigidbody2D _rigidbody2D;
     private bool _collided;
@@ -20,19 +19,19 @@ public class Knife : MonoBehaviour
     {
         if (_collided) return;
 
-        _spawner.SpawnKnife(new Vector3(0, SpawnPositionY, 0));
+        _spawner.SpawnKnife();
 
         var target = other.transform;
-        if (target.TryGetComponent(out Log log))
-        {
-            Destroy(_rigidbody2D);
-            transform.parent = target;
-            Vibration.VibratePop();
-        }
-        else if (target.TryGetComponent(out Knife knife))
+
+        if (target.TryGetComponent(out Knife knife))
         {
             GameManager.Instance.EndGame();
             Vibration.Vibrate();
+        }
+        else if (target.TryGetComponent(out Log log))
+        {
+            transform.parent = target;
+            Vibration.VibratePop();
         }
 
         _collided = true;
