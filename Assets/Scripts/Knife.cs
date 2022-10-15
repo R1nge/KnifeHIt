@@ -31,7 +31,7 @@ public class Knife : MonoBehaviour
         else if (target.TryGetComponent(out Log log))
         {
             transform.parent = target;
-            Vibration.VibratePop();
+            Vibration.VibratePeek();
         }
 
         _collided = true;

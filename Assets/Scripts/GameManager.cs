@@ -28,6 +28,12 @@ public class GameManager : MonoBehaviour
     public event Action OnGameEndedEvent;
     public event Action OnStageCompletedEvent;
 
+    private void Awake()
+    {
+        Application.targetFrameRate = 60;
+        Vibration.Init();
+    }
+
     public void StartGame() => OnGameStartedEvent?.Invoke();
 
     public void EndGame() => OnGameEndedEvent?.Invoke();
