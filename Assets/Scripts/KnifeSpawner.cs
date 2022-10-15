@@ -5,16 +5,14 @@ public class KnifeSpawner : MonoBehaviour
     [SerializeField] private GameObject knifePrefab;
     [SerializeField] private int amount;
     private const float SpawnPositionY = -2.5f;
-    private GameManager _gameManager;
     private int _amount;
 
     private void Awake()
     {
-        _gameManager = FindObjectOfType<GameManager>();
-        _gameManager.OnGameStartedEvent += ResetAmount;
-        _gameManager.OnGameStartedEvent += SpawnKnife;
-        _gameManager.OnStageCompletedEvent += ResetAmount;
-        _gameManager.OnStageCompletedEvent += SpawnKnife;
+        GameManager.Instance.OnGameStartedEvent += ResetAmount;
+        GameManager.Instance.OnGameStartedEvent += SpawnKnife;
+        GameManager.Instance.OnStageCompletedEvent += ResetAmount;
+        GameManager.Instance.OnStageCompletedEvent += SpawnKnife;
         _amount = amount;
     }
 
@@ -22,16 +20,16 @@ public class KnifeSpawner : MonoBehaviour
     {
         if (_amount <= 0) return;
         _amount--;
-        Instantiate(knifePrefab, new Vector3(0, SpawnPositionY, 0), Quaternion.identity);
+        Instantiate(knifePrefab, new Vector3(0, SpawnPositionY), Quaternion.identity);
     }
 
     private void ResetAmount() => _amount = amount;
 
     private void OnDestroy()
     {
-        _gameManager.OnGameStartedEvent -= ResetAmount;
-        _gameManager.OnGameStartedEvent -= SpawnKnife;
-        _gameManager.OnStageCompletedEvent -= ResetAmount;
-        _gameManager.OnStageCompletedEvent -= SpawnKnife;
+        GameManager.Instance.OnGameStartedEvent -= ResetAmount;
+        GameManager.Instance.OnGameStartedEvent -= SpawnKnife;
+        GameManager.Instance.OnStageCompletedEvent -= ResetAmount;
+        GameManager.Instance.OnStageCompletedEvent -= SpawnKnife;
     }
 }

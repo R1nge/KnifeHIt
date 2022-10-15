@@ -13,26 +13,13 @@ public class GameUI : MonoBehaviour
         GameManager.Instance.OnGameEndedEvent += ShowGameOverMenu;
     }
 
-    private void ShowMainMenu()
-    {
-        mainMenu.SetActive(true);
-    }
+    private void ShowMainMenu() => mainMenu.SetActive(true);
 
-    private void ShowGameOverMenu()
-    {
-        gameOverMenu.SetActive(true);
-        Time.timeScale = 0;
-    }
+    private void ShowGameOverMenu() => gameOverMenu.SetActive(true);
 
-    private void HideMainMenu()
-    {
-        mainMenu.SetActive(false);
-    }
+    private void HideMainMenu() => mainMenu.SetActive(false);
 
-    private void HideGameOverMenu()
-    {
-        gameOverMenu.SetActive(false);
-    }
+    private void HideGameOverMenu() => gameOverMenu.SetActive(false);
 
     private void OnDestroy()
     {
