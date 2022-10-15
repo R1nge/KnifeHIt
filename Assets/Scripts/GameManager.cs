@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (_instance == null)
+            if ((object) _instance == null)
             {
                 _instance = FindObjectOfType<GameManager>();
 
@@ -39,4 +40,6 @@ public class GameManager : MonoBehaviour
     public void EndGame() => OnGameEndedEvent?.Invoke();
 
     public void NextStage() => OnStageCompletedEvent?.Invoke();
+
+    public void RestartGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 }
