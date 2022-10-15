@@ -7,15 +7,25 @@ public class Knife : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private bool _collided;
     private GameManager _gameManager;
+    private SoundManager _soundManager;
 
     private void Awake()
     {
         _spawner = FindObjectOfType<KnifeSpawner>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _gameManager = FindObjectOfType<GameManager>();
+        _soundManager = FindObjectOfType<SoundManager>();
     }
 
     private void OnCollisionEnter2D(Collision2D other) => Collide(other);
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.transform.TryGetComponent(out Apple apple))
+        {
+            apple.Collect();
+        }
+    }
 
     private void Collide(Collision2D other)
     {
@@ -28,15 +38,17 @@ public class Knife : MonoBehaviour
         if (target.TryGetComponent(out Knife knife))
         {
             _gameManager.EndGame();
+            _soundManager.PlayKnifeHitSound();
             Vibration.Vibrate();
+            _collided = true;
         }
         else if (target.TryGetComponent(out Log log))
         {
             transform.parent = target;
+            _soundManager.PlayHitSound();
             Vibration.VibratePeek();
+            _collided = true;
         }
-
-        _collided = true;
     }
 
     private void OnMouseDown() => Throw();

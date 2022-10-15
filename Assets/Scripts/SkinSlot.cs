@@ -4,15 +4,43 @@ using UnityEngine.UI;
 public class SkinSlot : MonoBehaviour
 {
     [SerializeField] private SkinSO skin;
+    [SerializeField] private bool unlocked;
     private Image _image;
+    private Wallet _wallet;
     private SkinManager _skinManager;
 
     private void Awake()
     {
         _image = GetComponent<Image>();
         _image.sprite = skin.sprite;
+        _wallet = FindObjectOfType<Wallet>();
         _skinManager = FindObjectOfType<SkinManager>();
+        Load();
     }
 
-    public void SetSkin() => _skinManager.SetSkin(skin);
+    private void SetSkin() => _skinManager.SetSkin(skin);
+
+    public void Buy()
+    {
+        if (unlocked)
+        {
+            SetSkin();
+            return;
+        }
+
+        if (_wallet.Spend(skin.price))
+        {
+            SetSkin();
+            unlocked = true;
+            Save();
+        }
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetInt(skin.name, unlocked ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    private void Load() => unlocked = PlayerPrefs.GetInt(skin.name, 0) == 1;
 }

@@ -4,4 +4,5 @@
 public class SkinSO : ScriptableObject
 {
     public Sprite sprite;
+    public int price;
 }

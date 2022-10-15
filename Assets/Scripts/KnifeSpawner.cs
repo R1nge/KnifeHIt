@@ -18,10 +18,6 @@ public class KnifeSpawner : MonoBehaviour
         _amount = amount;
     }
 
-    private void Start()
-    {
-    }
-
     public void SpawnKnife()
     {
         if (_amount <= 0) return;

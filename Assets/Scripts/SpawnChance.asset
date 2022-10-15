@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a09f884befc4f65bc31ee539d2d5006, type: 3}
-  m_Name: Skin 1
+  m_Script: {fileID: 11500000, guid: 6154c93ce46f433f8b120056e8085616, type: 3}
+  m_Name: SpawnChance
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 507eebad030d5e442adcaa5be6f427d9, type: 3}
-  price: 100
+  chance: 0
