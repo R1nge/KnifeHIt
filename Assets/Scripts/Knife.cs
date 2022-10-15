@@ -6,11 +6,13 @@ public class Knife : MonoBehaviour
     private KnifeSpawner _spawner;
     private Rigidbody2D _rigidbody2D;
     private bool _collided;
+    private GameManager _gameManager;
 
     private void Awake()
     {
         _spawner = FindObjectOfType<KnifeSpawner>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void OnCollisionEnter2D(Collision2D other) => Collide(other);
@@ -25,7 +27,7 @@ public class Knife : MonoBehaviour
 
         if (target.TryGetComponent(out Knife knife))
         {
-            GameManager.Instance.EndGame();
+            _gameManager.EndGame();
             Vibration.Vibrate();
         }
         else if (target.TryGetComponent(out Log log))

@@ -3,14 +3,20 @@
 public class GameUI : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenu, gameOverMenu;
-
+    private GameManager _gameManager;
     private void Awake()
     {
         ShowMainMenu();
         HideGameOverMenu();
-        GameManager.Instance.OnGameStartedEvent += HideMainMenu;
-        GameManager.Instance.OnGameStartedEvent += HideGameOverMenu;
-        GameManager.Instance.OnGameEndedEvent += ShowGameOverMenu;
+        _gameManager = FindObjectOfType<GameManager>();
+        _gameManager.OnGameStartedEvent += HideMainMenu;
+        _gameManager.OnGameStartedEvent += HideGameOverMenu;
+        _gameManager.OnGameEndedEvent += ShowGameOverMenu;
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void ShowMainMenu() => mainMenu.SetActive(true);
@@ -23,8 +29,8 @@ public class GameUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnGameStartedEvent -= HideMainMenu;
-        GameManager.Instance.OnGameStartedEvent -= HideGameOverMenu;
-        GameManager.Instance.OnGameEndedEvent -= ShowGameOverMenu;
+        _gameManager.OnGameStartedEvent -= HideMainMenu;
+        _gameManager.OnGameStartedEvent -= HideGameOverMenu;
+        _gameManager.OnGameEndedEvent -= ShowGameOverMenu;
     }
 }

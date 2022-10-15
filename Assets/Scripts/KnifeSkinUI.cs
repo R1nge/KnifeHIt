@@ -3,14 +3,12 @@
 public class KnifeSkinUI : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
-
-    private void Awake() => ChangeSkin();
-
-    private void SetSkin(SkinSO newSkin)
+    private SkinManager _skinManager;
+    private void Awake()
     {
-        SkinManager.Instance.SetSkin(newSkin);
+        _skinManager = FindObjectOfType<SkinManager>();
         ChangeSkin();
     }
 
-    private void ChangeSkin() => spriteRenderer.sprite = SkinManager.Instance.GetSkin().sprite;
+    private void ChangeSkin() => spriteRenderer.sprite = _skinManager.GetSkin().sprite;
 }

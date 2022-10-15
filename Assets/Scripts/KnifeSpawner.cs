@@ -6,14 +6,20 @@ public class KnifeSpawner : MonoBehaviour
     [SerializeField] private int amount;
     private const float SpawnPositionY = -2.5f;
     private int _amount;
+    private GameManager _gameManager;
 
     private void Awake()
     {
-        GameManager.Instance.OnGameStartedEvent += ResetAmount;
-        GameManager.Instance.OnGameStartedEvent += SpawnKnife;
-        GameManager.Instance.OnStageCompletedEvent += ResetAmount;
-        GameManager.Instance.OnStageCompletedEvent += SpawnKnife;
+        _gameManager = FindObjectOfType<GameManager>();
+        _gameManager.OnGameStartedEvent += ResetAmount;
+        _gameManager.OnGameStartedEvent += SpawnKnife;
+        _gameManager.OnStageCompletedEvent += ResetAmount;
+        _gameManager.OnStageCompletedEvent += SpawnKnife;
         _amount = amount;
+    }
+
+    private void Start()
+    {
     }
 
     public void SpawnKnife()
@@ -27,9 +33,9 @@ public class KnifeSpawner : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnGameStartedEvent -= ResetAmount;
-        GameManager.Instance.OnGameStartedEvent -= SpawnKnife;
-        GameManager.Instance.OnStageCompletedEvent -= ResetAmount;
-        GameManager.Instance.OnStageCompletedEvent -= SpawnKnife;
+        _gameManager.OnGameStartedEvent -= ResetAmount;
+        _gameManager.OnGameStartedEvent -= SpawnKnife;
+        _gameManager.OnStageCompletedEvent -= ResetAmount;
+        _gameManager.OnStageCompletedEvent -= SpawnKnife;
     }
 }
