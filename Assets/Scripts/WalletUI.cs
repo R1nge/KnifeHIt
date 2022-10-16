@@ -6,9 +6,15 @@ public class WalletUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI money;
     private Wallet _wallet;
 
-    private void Awake() => _wallet = GetComponent<Wallet>();
+    private void Awake()
+    {
+        _wallet = GetComponent<Wallet>();
+        _wallet.OnMoneyChanged += UpdateUI;
+    }
 
-    private void Start() => UpdateUI();
+    private void Start() => UpdateUI(_wallet.Money);
 
-    private void UpdateUI() => money.text = _wallet.Money.ToString();
+    private void UpdateUI(int amount) => money.text = amount.ToString();
+
+    private void OnDestroy() => _wallet.OnMoneyChanged -= UpdateUI;
 }

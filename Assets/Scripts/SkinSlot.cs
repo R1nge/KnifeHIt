@@ -18,8 +18,9 @@ public class SkinSlot : MonoBehaviour
         _wallet = FindObjectOfType<Wallet>();
         _skinManager = FindObjectOfType<SkinManager>();
         Load();
-        SetPrice();
     }
+
+    private void Start() => SetPrice();
 
     private void SetPrice()
     {
@@ -34,27 +35,25 @@ public class SkinSlot : MonoBehaviour
         }
     }
 
-    private void SetSkin()
-    {
-        _skinManager.SetSkin(skin);
-        Save();
-    }
+    private void SetSkin() => _skinManager.SetSkin(skin);
 
     public void Buy()
     {
         if (unlocked)
         {
             SetSkin();
-            return;
         }
-
-        if (_wallet.Spend(skin.price))
+        else
         {
-            SetSkin();
-            unlocked = true;
+            if (_wallet.Spend(skin.price))
+            {
+                SetSkin();
+                unlocked = true;
+            }
         }
 
         SetPrice();
+        Save();
     }
 
     private void Save()

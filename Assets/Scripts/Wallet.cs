@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Wallet : MonoBehaviour
 {
@@ -12,13 +13,30 @@ public class Wallet : MonoBehaviour
         }
     }
 
-    private int _money;
+    [SerializeField] private int _money;
+
+    public event Action<int> OnMoneyChanged;
 
     private void Awake() => Money = PlayerPrefs.GetInt("Money", 0);
 
-    public void Earn(int amount) => Money += amount;
+    public void Earn(int amount)
+    {
+        Money += amount;
+        OnMoneyChanged?.Invoke(_money);
+        Save();
+    }
 
-    public bool Spend(int amount) => (Money -= amount) >= 0;
+    public bool Spend(int amount)
+    {
+        if ((Money -= amount) < 0) return false;
+        OnMoneyChanged?.Invoke(_money);
+        Save();
+        return true;
+    }
 
-    private void Save() => PlayerPrefs.SetInt("Money", Money);
+    private void Save()
+    {
+        PlayerPrefs.SetInt("Money", Money);
+        PlayerPrefs.Save();
+    }
 }
