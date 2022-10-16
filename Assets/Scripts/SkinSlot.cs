@@ -18,7 +18,11 @@ public class SkinSlot : MonoBehaviour
         Load();
     }
 
-    private void SetSkin() => _skinManager.SetSkin(skin);
+    private void SetSkin()
+    {
+        _skinManager.SetSkin(skin);
+        Save();
+    }
 
     public void Buy()
     {
@@ -32,7 +36,6 @@ public class SkinSlot : MonoBehaviour
         {
             SetSkin();
             unlocked = true;
-            Save();
         }
     }
 

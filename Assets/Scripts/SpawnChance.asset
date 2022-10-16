@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6154c93ce46f433f8b120056e8085616, type: 3}
   m_Name: SpawnChance
   m_EditorClassIdentifier: 
-  chance: 0
+  chance: 25

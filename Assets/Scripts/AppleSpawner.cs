@@ -15,19 +15,15 @@ public class AppleSpawner : MonoBehaviour
 
     private void OnGameStarted()
     {
-        Invoke("A", 0.01f);
-    }
-    
-    //TODO: REDO!!!
-    private void A()
-    {
         while (_log == null)
         {
             _log = FindObjectOfType<Log>().transform;
         }
 
-        //TODO: Find Log
-        Spawn(_log, 1.25f);
+        if (Random.Range(0, 100) <= spawnChance.chance)
+        {
+            Spawn(_log, 1.25f);
+        }
     }
 
     private void Spawn(Transform origin, float radius)
@@ -35,7 +31,7 @@ public class AppleSpawner : MonoBehaviour
         var instance = Instantiate(applePrefab,
             RandomCirclePosition(origin.position, radius),
             Quaternion.identity);
-        
+
         Vector3 dir = instance.transform.position - origin.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         instance.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);

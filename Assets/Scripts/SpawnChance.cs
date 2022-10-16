@@ -3,5 +3,5 @@
 [CreateAssetMenu(fileName = "SpawnChance", menuName = "SpawnChance")]
 public class SpawnChance : ScriptableObject
 {
-    public int chance;
+    [Range(0, 100)] public int chance;
 }
