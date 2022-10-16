@@ -23,7 +23,8 @@ public class KnifeSpawner : MonoBehaviour
     {
         if (_amount <= 0)
         {
-            _gameManager.WinGame();
+            //TODO: REDO
+            Invoke(nameof(Win), .1f);
             return;
         }
 
@@ -31,6 +32,8 @@ public class KnifeSpawner : MonoBehaviour
         _inGameUI.UpdateUI(_amount);
         Instantiate(knifePrefab, new Vector3(0, SpawnPositionY), Quaternion.identity);
     }
+
+    private void Win() => _gameManager.WinGame();
 
     private void ResetAmount() => _amount = amount;
 

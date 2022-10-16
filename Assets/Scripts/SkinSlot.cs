@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SkinSlot : MonoBehaviour
 {
     [SerializeField] private SkinSO skin;
+    [SerializeField] private TextMeshProUGUI price;
     [SerializeField] private bool unlocked;
     private Image _image;
     private Wallet _wallet;
@@ -16,6 +18,20 @@ public class SkinSlot : MonoBehaviour
         _wallet = FindObjectOfType<Wallet>();
         _skinManager = FindObjectOfType<SkinManager>();
         Load();
+        SetPrice();
+    }
+
+    private void SetPrice()
+    {
+        if (unlocked)
+        {
+            price.gameObject.SetActive(false);
+        }
+        else
+        {
+            price.gameObject.SetActive(true);
+            price.text = skin.price.ToString();
+        }
     }
 
     private void SetSkin()
@@ -37,6 +53,8 @@ public class SkinSlot : MonoBehaviour
             SetSkin();
             unlocked = true;
         }
+
+        SetPrice();
     }
 
     private void Save()

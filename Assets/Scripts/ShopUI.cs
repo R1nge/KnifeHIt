@@ -2,7 +2,7 @@
 
 public class ShopUI : MonoBehaviour
 {
-    [SerializeField] private GameObject shop;
+    [SerializeField] private GameObject shop, mainMenu;
     private GameManager _gameManager;
 
     private void Awake()
@@ -11,11 +11,17 @@ public class ShopUI : MonoBehaviour
         Close();
     }
 
-    private void Start() => _gameManager.OnGameStartedEvent += Close;
+    private void Start() => _gameManager.OnGameStartedEvent += () => { shop.SetActive(false); };
 
-    public void Open() => shop.SetActive(true);
+    public void Open()
+    {
+        shop.SetActive(true);
+        mainMenu.SetActive(false);
+    }
 
-    public void Close() => shop.SetActive(false);
-
-    private void OnDestroy() => _gameManager.OnGameStartedEvent -= Close;
+    public void Close()
+    {
+        shop.SetActive(false);
+        mainMenu.SetActive(true);
+    }
 }

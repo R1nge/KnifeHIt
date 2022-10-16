@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Skin 13
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 6493474179f4e0943a50b9d1b8f6c7d4, type: 3}
-  price: 0
+  price: 1300
