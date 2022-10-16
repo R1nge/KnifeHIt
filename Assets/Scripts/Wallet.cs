@@ -18,7 +18,7 @@ public class Wallet : MonoBehaviour
 
     public void Earn(int amount) => Money += amount;
 
-    public bool Spend(int amount) => (_money -= amount) >= 0;
+    public bool Spend(int amount) => (Money -= amount) >= 0;
 
     private void Save() => PlayerPrefs.SetInt("Money", Money);
 }

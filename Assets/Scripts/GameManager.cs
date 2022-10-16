@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    //TODO: Add stages, loot boxes
     public void Awake()
     {
         Application.targetFrameRate = 60;

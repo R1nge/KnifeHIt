@@ -6,6 +6,7 @@ public class Knife : MonoBehaviour
     private KnifeSpawner _spawner;
     private Rigidbody2D _rigidbody2D;
     private bool _collided;
+    private bool _thrown;
     private GameManager _gameManager;
     private SoundManager _soundManager;
 
@@ -51,7 +52,15 @@ public class Knife : MonoBehaviour
         }
     }
 
-    private void OnMouseDown() => Throw();
+    private void Update()
+    {
+        if (_thrown || _collided) return;
+        if (Input.GetMouseButtonDown(0))
+        {
+            Throw();
+            _thrown = true;
+        }
+    }
 
     private void Throw() => _rigidbody2D.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 }
