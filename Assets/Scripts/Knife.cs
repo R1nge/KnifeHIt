@@ -7,6 +7,7 @@ public class Knife : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private bool _collided;
     private bool _thrown;
+    private bool _cantThrow;
     private GameManager _gameManager;
     private SoundManager _soundManager;
 
@@ -15,6 +16,7 @@ public class Knife : MonoBehaviour
         _spawner = FindObjectOfType<KnifeSpawner>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _gameManager = FindObjectOfType<GameManager>();
+        _gameManager.OnGameOverEvent += delegate { _cantThrow = true; };
         _soundManager = FindObjectOfType<SoundManager>();
     }
 
@@ -38,7 +40,7 @@ public class Knife : MonoBehaviour
 
         if (target.TryGetComponent(out Knife knife))
         {
-            _gameManager.EndGame();
+            _gameManager.GameOver();
             _soundManager.PlayKnifeHitSound();
             Vibration.Vibrate();
             _collided = true;
@@ -54,7 +56,7 @@ public class Knife : MonoBehaviour
 
     private void Update()
     {
-        if (_thrown || _collided) return;
+        if (_thrown || _collided || _cantThrow) return;
         if (Input.GetMouseButtonDown(0))
         {
             Throw();

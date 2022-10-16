@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    //TODO: Add stages, loot boxes
     public void Awake()
     {
         Application.targetFrameRate = 60;
@@ -13,15 +12,15 @@ public class GameManager : MonoBehaviour
 
     public event Action OnGameStartedEvent;
 
-    public event Action OnGameEndedEvent;
+    public event Action OnGameOverEvent;
 
-    public event Action OnStageCompletedEvent;
+    public event Action OnGameWinEvent;
 
     public void StartGame() => OnGameStartedEvent?.Invoke();
 
-    public void EndGame() => OnGameEndedEvent?.Invoke();
+    public void GameOver() => OnGameOverEvent?.Invoke();
 
-    public void NextStage() => OnStageCompletedEvent?.Invoke();
+    public void WinGame() => OnGameWinEvent?.Invoke();
 
     public void RestartGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 }
