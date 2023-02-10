@@ -45,7 +45,7 @@ public class SkinSlot : MonoBehaviour
         }
         else
         {
-            if (_wallet.Spend(skin.price))
+            if (_wallet.TrySpend(skin.price))
             {
                 SetSkin();
                 unlocked = true;

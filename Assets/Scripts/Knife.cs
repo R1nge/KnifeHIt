@@ -1,23 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Knife : MonoBehaviour
 {
     [SerializeField] private float force;
-    private KnifeSpawner _spawner;
     private Rigidbody2D _rigidbody2D;
     private bool _collided;
     private bool _thrown;
-    private bool _cantThrow;
+    private bool _canThrow = true;
     private GameManager _gameManager;
-    private SoundManager _soundManager;
+
+    public static event Action OnHitKnife;
+    public static event Action OnHit;
 
     private void Awake()
     {
-        _spawner = FindObjectOfType<KnifeSpawner>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _gameManager = FindObjectOfType<GameManager>();
-        _gameManager.OnGameOverEvent += delegate { _cantThrow = true; };
-        _soundManager = FindObjectOfType<SoundManager>();
+        _gameManager.OnGameOverEvent += delegate { _canThrow = false; };
     }
 
     private void OnCollisionEnter2D(Collision2D other) => Collide(other);
@@ -33,30 +33,26 @@ public class Knife : MonoBehaviour
     private void Collide(Collision2D other)
     {
         if (_collided) return;
-
-        _spawner.SpawnKnife();
-
+        
         var target = other.transform;
 
-        if (target.TryGetComponent(out Knife knife))
+        if (target.TryGetComponent(out Knife _))
         {
+            OnHitKnife?.Invoke();
             _gameManager.GameOver();
-            _soundManager.PlayKnifeHitSound();
-            Vibration.Vibrate();
             _collided = true;
         }
-        else if (target.TryGetComponent(out Log log))
+        else if (target.TryGetComponent(out Log _))
         {
+            OnHit?.Invoke();
             transform.parent = target;
-            _soundManager.PlayHitSound();
-            Vibration.VibratePeek();
             _collided = true;
         }
     }
 
     private void Update()
     {
-        if (_thrown || _collided || _cantThrow) return;
+        if (_thrown || _collided || !_canThrow) return;
         if (Input.GetMouseButtonDown(0))
         {
             Throw();

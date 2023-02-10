@@ -1,10 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioSource hit, knifeHit;
 
-    public void PlayHitSound() => hit.Play();
+    private void Awake()
+    {
+        Knife.OnHit += PlayHitSound;
+        Knife.OnHitKnife += PlayHitKnifeSound;
+    }
 
-    public void PlayKnifeHitSound() => knifeHit.Play();
+    private void PlayHitSound() => hit.Play();
+
+    private void PlayHitKnifeSound() => knifeHit.Play();
+
+    private void OnDestroy()
+    {
+        Knife.OnHit -= PlayHitSound;
+        Knife.OnHitKnife -= PlayHitKnifeSound;
+    }
 }

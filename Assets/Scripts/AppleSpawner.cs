@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AppleSpawner : MonoBehaviour
 {
@@ -45,5 +47,10 @@ public class AppleSpawner : MonoBehaviour
         pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
         pos.y = center.y + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
         return pos;
+    }
+
+    private void OnDestroy()
+    {
+        _gameManager.OnGameStartedEvent -= OnGameStarted;
     }
 }

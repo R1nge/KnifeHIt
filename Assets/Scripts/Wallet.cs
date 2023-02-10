@@ -13,7 +13,7 @@ public class Wallet : MonoBehaviour
         }
     }
 
-    [SerializeField] private int _money;
+    private int _money;
 
     public event Action<int> OnMoneyChanged;
 
@@ -26,7 +26,7 @@ public class Wallet : MonoBehaviour
         Save();
     }
 
-    public bool Spend(int amount)
+    public bool TrySpend(int amount)
     {
         if ((Money -= amount) < 0) return false;
         OnMoneyChanged?.Invoke(_money);
