@@ -1,16 +1,19 @@
 ﻿using TMPro;
 using UnityEngine;
+using VContainer;
 
 public class WalletUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI money;
     private Wallet _wallet;
 
-    private void Awake()
+    [Inject]
+    private void Construct(Wallet wallet)
     {
-        _wallet = GetComponent<Wallet>();
-        _wallet.OnMoneyChanged += UpdateUI;
+        _wallet = wallet;
     }
+
+    private void Awake() => _wallet.OnMoneyChanged += UpdateUI;
 
     private void Start() => UpdateUI(_wallet.Money);
 

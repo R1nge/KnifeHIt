@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a09f884befc4f65bc31ee539d2d5006, type: 3}
-  m_Name: Skin 14
+  m_Name: Skin 9
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: af21f485dfd64a14fbb28694ba770a82, type: 3}
-  price: 1400
+  skinName: 9
+  sprite: {fileID: 21300000, guid: 8e4432c77a1a60f44afb361e667ef9a1, type: 3}
+  price: 800

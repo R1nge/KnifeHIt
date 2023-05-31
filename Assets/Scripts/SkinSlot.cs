@@ -1,66 +1,49 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SkinSlot : MonoBehaviour
 {
-    [SerializeField] private SkinSO skin;
     [SerializeField] private TextMeshProUGUI price;
-    [SerializeField] private bool unlocked;
-    private Image _image;
-    private Wallet _wallet;
-    private SkinManager _skinManager;
+    [SerializeField] private Button button;
+    [SerializeField] private Image image;
+    private bool _isUnlocked;
+    private SkinSO _skin;
 
-    private void Awake()
+    public void Init(SkinSO skin) => _skin = skin;
+
+    private void Awake() => Load();
+
+    private void Start() => UpdateSlot();
+
+    public void UpdateSlot()
     {
-        _image = GetComponent<Image>();
-        _image.sprite = skin.sprite;
-        _wallet = FindObjectOfType<Wallet>();
-        _skinManager = FindObjectOfType<SkinManager>();
-        Load();
-    }
-
-    private void Start() => SetPrice();
-
-    private void SetPrice()
-    {
-        if (unlocked)
+        image.sprite = _skin.sprite;
+        if (_isUnlocked)
         {
             price.gameObject.SetActive(false);
         }
         else
         {
             price.gameObject.SetActive(true);
-            price.text = skin.price.ToString();
+            price.text = _skin.price != 0 ? _skin.price.ToString() : String.Empty;
         }
     }
 
-    private void SetSkin() => _skinManager.SetSkin(skin);
+    public void Unlock() => _isUnlocked = true;
+    
+    public bool IsUnlocked() => _isUnlocked;
 
-    public void Buy()
-    {
-        if (unlocked)
-        {
-            SetSkin();
-        }
-        else
-        {
-            if (_wallet.TrySpend(skin.price))
-            {
-                SetSkin();
-                unlocked = true;
-            }
-        }
-
-        SetPrice();
-        Save();
-    }
+    public Button GetButton() => button;
 
     private void Save()
     {
-        PlayerPrefs.SetInt(skin.name, unlocked ? 1 : 0);
+        PlayerPrefs.SetInt(_skin.skinName, _isUnlocked ? 1 : 0);
         PlayerPrefs.Save();
     }
 
-    private void Load() => unlocked = PlayerPrefs.GetInt(skin.name, 0) == 1;
+    private void Load() => _isUnlocked = PlayerPrefs.GetInt(_skin.skinName) == 1;
+
+    private void OnDisable() => Save();
 }

@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
+using VContainer;
 
 public class KnifeSkinUI : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     private SkinManager _skinManager;
-    private void Awake()
+
+    [Inject]
+    private void Construct(SkinManager skinManager)
     {
-        _skinManager = FindObjectOfType<SkinManager>();
-        ChangeSkin();
+        _skinManager = skinManager;
     }
 
-    private void ChangeSkin() => spriteRenderer.sprite = _skinManager.GetSkin().sprite;
+    private void Start() => ChangeSkin();
+
+    private void ChangeSkin() => spriteRenderer.sprite = _skinManager.GetSelectedSkin().sprite;
 }

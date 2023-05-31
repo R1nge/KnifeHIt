@@ -1,22 +1,20 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VContainer.Unity;
 
-public class GameManager : MonoBehaviour
+public class GameManager : IInitializable
 {
-    public void Awake()
+    private bool _gameEnded;
+    public event Action OnGameStartedEvent;
+    public event Action OnGameOverEvent;
+    public event Action OnGameWinEvent;
+
+    public void Initialize()
     {
         Application.targetFrameRate = 60;
         Vibration.Init();
     }
-
-    private bool _gameEnded;
-
-    public event Action OnGameStartedEvent;
-
-    public event Action OnGameOverEvent;
-
-    public event Action OnGameWinEvent;
 
     public void StartGame() => OnGameStartedEvent?.Invoke();
 

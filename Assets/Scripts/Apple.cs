@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
+using VContainer;
 
 public class Apple : MonoBehaviour
 {
     [SerializeField] private int income;
     private Wallet _wallet;
 
-    private void Awake() => _wallet = FindObjectOfType<Wallet>();
+    [Inject]
+    private void Construct(Wallet wallet)
+    {
+        _wallet = wallet;
+    }
 
     public void Collect()
     {

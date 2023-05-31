@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using VContainer.Unity;
 
-public class Wallet : MonoBehaviour
+public class Wallet : IInitializable
 {
     public int Money
     {
@@ -17,7 +18,7 @@ public class Wallet : MonoBehaviour
 
     public event Action<int> OnMoneyChanged;
 
-    private void Awake() => Money = PlayerPrefs.GetInt("Money", 0);
+    public void Initialize() => Money = PlayerPrefs.GetInt("Money", 0);
 
     public void Earn(int amount)
     {
@@ -36,7 +37,7 @@ public class Wallet : MonoBehaviour
 
     private void Save()
     {
-        PlayerPrefs.SetInt("Money", Money);
+        PlayerPrefs.SetInt("Money", _money);
         PlayerPrefs.Save();
     }
 }

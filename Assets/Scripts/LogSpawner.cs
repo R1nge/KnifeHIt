@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
+using VContainer;
 
 public class LogSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject logPrefab;
     private const float SpawnPositionY = 3f;
     private GameManager _gameManager;
+    private Transform _log;
 
-    private void Awake()
+    [Inject]
+    private void Construct(GameManager gameManager)
     {
-        _gameManager = FindObjectOfType<GameManager>();
-        _gameManager.OnGameStartedEvent += SpawnLog;
+        _gameManager = gameManager;
     }
 
-    private void SpawnLog()
-    {
-        Instantiate(logPrefab, new Vector3(0, SpawnPositionY), Quaternion.identity);
-    }
+    private void Awake() => _gameManager.OnGameStartedEvent += SpawnLog;
+
+    public Transform GetLog() => _log;
+
+    private void SpawnLog() => _log = Instantiate(logPrefab, new(0, SpawnPositionY), Quaternion.identity).transform;
 
     private void OnDestroy() => _gameManager.OnGameStartedEvent -= SpawnLog;
 }

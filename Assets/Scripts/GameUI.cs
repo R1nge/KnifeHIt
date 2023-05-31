@@ -1,24 +1,66 @@
 ﻿using UnityEngine;
+using VContainer;
 
 public class GameUI : MonoBehaviour
 {
-    [SerializeField] private GameObject mainMenu, inGameMenu, winMenu, gameOverMenu;
+    [SerializeField] private GameObject mainMenu, shop, inGameMenu, winMenu, gameOverMenu;
     private GameManager _gameManager;
 
+    [Inject]
+    private void Construct(GameManager gameManager)
+    {
+        _gameManager = gameManager;
+    }
+
     private void Awake()
+    {
+        _gameManager.OnGameStartedEvent += OnGameStarted;
+        _gameManager.OnGameOverEvent += OnGameOver;
+        _gameManager.OnGameWinEvent += OnGameWin;
+        Init();
+    }
+
+    public void StartGame() => _gameManager.StartGame();
+
+    public void RestartGame() => _gameManager.RestartGame();
+
+    public void OpenShop()
+    {
+        ShowShop();
+        HideMainMenu();
+    }
+
+    public void CloseShop()
+    {
+        HideShop();
+        ShowMainMenu();
+    }
+
+    private void Init()
     {
         ShowMainMenu();
         HideInGameMenu();
         HideWinGameMenu();
         HideGameOverMenu();
-        _gameManager = FindObjectOfType<GameManager>();
-        _gameManager.OnGameStartedEvent += HideMainMenu;
-        _gameManager.OnGameStartedEvent += ShowInGameMenu;
-        _gameManager.OnGameStartedEvent += HideWinGameMenu;
-        _gameManager.OnGameStartedEvent += HideGameOverMenu;
-        _gameManager.OnGameOverEvent += HideInGameMenu;
-        _gameManager.OnGameOverEvent += ShowGameOverMenu;
-        _gameManager.OnGameWinEvent += ShowWinGameMenu;
+    }
+
+    private void OnGameStarted()
+    {
+        HideMainMenu();
+        ShowInGameMenu();
+        HideWinGameMenu();
+        HideGameOverMenu();
+    }
+
+    private void OnGameOver()
+    {
+        HideInGameMenu();
+        ShowGameOverMenu();
+    }
+
+    private void OnGameWin()
+    {
+        ShowWinGameMenu();
     }
 
     private void ShowMainMenu() => mainMenu.SetActive(true);
@@ -37,14 +79,14 @@ public class GameUI : MonoBehaviour
 
     private void HideGameOverMenu() => gameOverMenu.SetActive(false);
 
+    private void ShowShop() => shop.SetActive(true);
+
+    private void HideShop() => shop.SetActive(false);
+
     private void OnDestroy()
     {
-        _gameManager.OnGameStartedEvent -= HideMainMenu;
-        _gameManager.OnGameStartedEvent -= ShowInGameMenu;
-        _gameManager.OnGameStartedEvent -= HideWinGameMenu;
-        _gameManager.OnGameStartedEvent -= HideGameOverMenu;
-        _gameManager.OnGameOverEvent -= HideInGameMenu;
-        _gameManager.OnGameOverEvent -= ShowGameOverMenu;
-        _gameManager.OnGameWinEvent -= ShowWinGameMenu;
+        _gameManager.OnGameStartedEvent -= OnGameStarted;
+        _gameManager.OnGameOverEvent -= OnGameOver;
+        _gameManager.OnGameWinEvent -= OnGameWin;
     }
 }

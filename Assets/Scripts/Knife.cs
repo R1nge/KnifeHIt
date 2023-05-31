@@ -1,39 +1,31 @@
 ﻿using System;
 using UnityEngine;
+using VContainer;
 
 public class Knife : MonoBehaviour
 {
-    [SerializeField] private float force;
-    private Rigidbody2D _rigidbody2D;
     private bool _collided;
     private bool _thrown;
-    private bool _canThrow = true;
+    private Rigidbody2D _rigidbody;
     private GameManager _gameManager;
 
-    public static event Action OnHitKnife;
-    public static event Action OnHit;
+    public event Action OnHitKnife;
+    public event Action OnHit;
 
-    private void Awake()
+    [Inject]
+    private void Construct(GameManager gameManager)
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        _gameManager = FindObjectOfType<GameManager>();
-        _gameManager.OnGameOverEvent += delegate { _canThrow = false; };
+        _gameManager = gameManager;
     }
 
-    private void OnCollisionEnter2D(Collision2D other) => Collide(other);
+    private void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.transform.TryGetComponent(out Apple apple))
-        {
-            apple.Collect();
-        }
-    }
+    public void Throw(float force) => _rigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 
-    private void Collide(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (_collided) return;
-        
+
         var target = other.transform;
 
         if (target.TryGetComponent(out Knife _))
@@ -50,15 +42,11 @@ public class Knife : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (_thrown || _collided || !_canThrow) return;
-        if (Input.GetMouseButtonDown(0))
+        if (other.TryGetComponent(out Apple apple))
         {
-            Throw();
-            _thrown = true;
+            apple.Collect();
         }
     }
-
-    private void Throw() => _rigidbody2D.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 }
