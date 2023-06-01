@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using VContainer;
 
-public class KnifeSkinUI : MonoBehaviour
+public class KnifeSkin : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
     private SkinManager _skinManager;

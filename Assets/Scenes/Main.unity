@@ -153,11 +153,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a96ab61a114d52aa3696b344c13b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenu: {fileID: 468581430}
-  shop: {fileID: 443203225}
-  inGameMenu: {fileID: 853283864}
-  winMenu: {fileID: 1140317157}
-  gameOverMenu: {fileID: 1901680921}
+  gameUIModel:
+    mainMenu: {fileID: 468581430}
+    shop: {fileID: 443203225}
+    inGameMenu: {fileID: 853283864}
+    winMenu: {fileID: 1140317157}
+    gameOverMenu: {fileID: 1475018749}
 --- !u!4 &38505685
 Transform:
   m_ObjectHideFlags: 0
@@ -185,7 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7f29b02b4f3cbd01648fe6bd69ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1602276871}
+  inGameUIModel:
+    slider: {fileID: 1602276871}
 --- !u!1001 &45954154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1678,7 +1680,7 @@ GameObject:
   - component: {fileID: 468581432}
   - component: {fileID: 468581431}
   m_Layer: 5
-  m_Name: MainMenu
+  m_Name: MainMenuUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3109,7 +3111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf244d3bf2641f993d15d280e03be26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: {fileID: 1172647169}
+  walletModel:
+    money: {fileID: 1172647169}
 --- !u!1 &983453859
 GameObject:
   m_ObjectHideFlags: 0
