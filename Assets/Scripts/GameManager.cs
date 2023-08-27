@@ -23,6 +23,7 @@ public class GameManager : IInitializable
         if (_gameEnded) return;
         OnGameOverEvent?.Invoke();
         _gameEnded = true;
+        Debug.Log("GAME ERROR GM");
     }
 
     public void WinGame()

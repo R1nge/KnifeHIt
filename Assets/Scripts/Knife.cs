@@ -32,6 +32,7 @@ public class Knife : MonoBehaviour
         {
             OnHitKnife?.Invoke();
             _gameManager.GameOver();
+            print("GAME OVER");
             _collided = true;
         }
         else if (target.TryGetComponent(out Log _))

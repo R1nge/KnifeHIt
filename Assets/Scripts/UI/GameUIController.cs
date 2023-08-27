@@ -58,6 +58,7 @@ namespace UI
 
         private void OnGameOver()
         {
+            print("UI GAME OVER");
             _gameUIView.HideInGameMenu();
             _gameUIView.ShowGameOverMenu();
         }
